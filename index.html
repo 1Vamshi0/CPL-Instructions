@@ -3,21 +3,428 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>CPL Auction – Official Rules</title>
-
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-
+  <title>ITEC IPL Auction – Official Rules</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@700;800;900&display=swap" rel="stylesheet">
   <style>
-    :root{--accent:#ff6b35;--accent2:#ff3da1;--lime:#22c55e}
-    body{font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;background:linear-gradient(135deg,#fff7ed,#fff0f6);}
-    .card{border-radius:18px;box-shadow:0 10px 30px rgba(0,0,0,0.08);}
-    #confettiCanvas{position:fixed;left:0;top:0;pointer-events:none;z-index:60}
+    :root {
+      --bg: #f4f4f0;
+      --surface: #ffffff;
+      --surface2: #f0efe9;
+      --border: #e2e1db;
+      --accent: #2563eb;
+      --accent-light: #eff4ff;
+      --accent2: #7c3aed;
+      --green: #16a34a;
+      --red: #dc2626;
+      --text: #111110;
+      --muted: #6b6b66;
+      --subtle: #9c9c96;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Barlow', sans-serif;
+      font-weight: 400;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    #root { position: relative; z-index: 1; }
+
+    .shell {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 28px 16px;
+    }
+
+    .wrap { width: 100%; max-width: 760px; }
+
+    /* ---- Header ---- */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .brand { display: flex; align-items: center; gap: 10px; }
+
+    .brand-badge {
+      width: 36px; height: 36px;
+      background: var(--accent);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+    }
+
+    .brand-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: 20px;
+      letter-spacing: -0.3px;
+      color: var(--text);
+    }
+
+    .brand-sub { font-size: 11px; color: var(--muted); margin-top: 1px; letter-spacing: 0.3px; }
+
+    .step-pill {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 5px 14px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--muted);
+      letter-spacing: 0.5px;
+    }
+
+    .step-pill strong { color: var(--text); }
+
+    /* ---- Card ---- */
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; }
+
+    .card-top { padding: 28px 32px 24px; border-bottom: 1px solid var(--border); }
+    .card-body { padding: 24px 32px; }
+    .card-foot {
+      padding: 20px 32px;
+      border-top: 1px solid var(--border);
+      background: var(--surface2);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    /* ---- Slide header ---- */
+    .slide-head { display: flex; align-items: flex-start; gap: 16px; }
+
+    .icon-tag {
+      background: var(--accent-light);
+      border: 1px solid #bfdbfe;
+      border-radius: 10px;
+      width: 52px; height: 52px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .slide-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: clamp(26px, 4vw, 36px);
+      letter-spacing: -0.5px;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .slide-brief { font-size: 14px; color: var(--muted); margin-top: 6px; line-height: 1.5; }
+
+    /* ---- Content ---- */
+    .content { font-size: 15px; color: #333330; line-height: 1.7; }
+    .content strong { color: var(--text); font-weight: 600; }
+    .content p + p { margin-top: 10px; }
+
+    .stat-row { display: flex; gap: 12px; margin-top: 18px; }
+
+    .stat-box {
+      flex: 1;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 18px;
+    }
+
+    .stat-icon { font-size: 20px; margin-bottom: 8px; }
+
+    .stat-val {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: 28px;
+      letter-spacing: -1px;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .stat-label { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+    .tier-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 16px; }
+
+    .tier-chip { border-radius: 12px; padding: 14px 16px; border: 1.5px solid; }
+
+    .tier-chip .t-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: 16px;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+    }
+
+    .tier-chip .t-range { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .tier-chip .t-price { font-size: 14px; font-weight: 600; margin-top: 6px; }
+
+    .t-elite { background: #fff7ed; border-color: #fed7aa; }
+    .t-elite .t-name { color: #c2410c; }
+    .t-elite .t-price { color: #ea580c; }
+    .t-premium { background: #fdf4ff; border-color: #e9d5ff; }
+    .t-premium .t-name { color: #7c3aed; }
+    .t-premium .t-price { color: #7c3aed; }
+    .t-solid { background: #f0fdf4; border-color: #bbf7d0; }
+    .t-solid .t-name { color: #15803d; }
+    .t-solid .t-price { color: #16a34a; }
+    .t-budget { background: #f0f9ff; border-color: #bae6fd; }
+    .t-budget .t-name { color: #0369a1; }
+    .t-budget .t-price { color: #0284c7; }
+
+    .inc-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+      font-size: 14px;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .inc-table thead { background: var(--surface2); }
+
+    .inc-table th {
+      text-align: left;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 11px;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 10px 16px;
+    }
+
+    .inc-table td { padding: 11px 16px; border-top: 1px solid var(--border); color: #333330; }
+
+    .inc-table .inc-val {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 15px;
+      color: var(--accent);
+    }
+
+    .phase-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+
+    .phase-card { border-radius: 12px; border: 1.5px solid; padding: 16px; }
+
+    .phase-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .phase-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 18px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .phase-desc { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+    .phase-main { background: #eff4ff; border-color: #bfdbfe; }
+    .phase-main .phase-num, .phase-main .phase-name { color: var(--accent); }
+    .phase-re { background: #fdf4ff; border-color: #e9d5ff; }
+    .phase-re .phase-num, .phase-re .phase-name { color: var(--accent2); }
+
+    .arch-section { margin-top: 16px; }
+
+    .arch-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .arch-chips { display: flex; flex-wrap: wrap; gap: 7px; }
+
+    .arch-chip {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 6px 11px;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .arch-chip .code {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 14px;
+      color: var(--accent);
+    }
+
+    .arch-chip .aname { color: var(--muted); }
+
+    .syn-section { margin-top: 16px; }
+
+    .syn-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .syn-pos-label { color: var(--green); }
+    .syn-neg-label { color: var(--red); }
+    .syn-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+
+    .syn-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1px solid;
+      font-size: 13px;
+    }
+
+    .syn-pos { background: #f0fdf4; border-color: #bbf7d0; }
+    .syn-neg { background: #fef2f2; border-color: #fecaca; }
+
+    .syn-combo {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 15px;
+      letter-spacing: 0.3px;
+    }
+
+    .syn-desc { color: var(--muted); font-size: 12px; margin-left: 6px; }
+
+    .syn-bonus {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: 16px;
+    }
+
+    .bon-pos { color: var(--green); }
+    .bon-neg { color: var(--red); }
+
+    .formula-box {
+      background: var(--accent-light);
+      border: 1.5px solid #bfdbfe;
+      border-radius: 14px;
+      padding: 20px 22px;
+      margin: 16px 0;
+      text-align: center;
+    }
+
+    .formula-text {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: clamp(14px, 2.5vw, 17px);
+      color: var(--text);
+      line-height: 1.7;
+      text-transform: uppercase;
+      letter-spacing: 0.2px;
+    }
+
+    .formula-eg { margin-top: 14px; font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+    .formula-result {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: 22px;
+      color: var(--accent);
+    }
+
+    /* ---- Progress ---- */
+    .progress-wrap { flex: 1; }
+
+    .progress-bg { height: 4px; background: var(--border); border-radius: 99px; overflow: hidden; }
+
+    .progress-fill {
+      height: 4px;
+      background: var(--accent);
+      border-radius: 99px;
+      transition: width 0.35s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    .dots { display: flex; gap: 5px; margin-top: 10px; }
+
+    .dot { height: 4px; width: 4px; border-radius: 99px; background: var(--border); transition: all 0.3s; }
+    .dot.done { background: #93c5fd; }
+    .dot.active { width: 16px; background: var(--accent); }
+
+    .pct-label { font-size: 12px; color: var(--subtle); margin-top: 6px; }
+
+    /* ---- Buttons ---- */
+    .btn-row { display: flex; gap: 8px; flex-shrink: 0; }
+
+    .btn {
+      border: none;
+      cursor: pointer;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 15px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      border-radius: 10px;
+      padding: 10px 22px;
+      transition: all 0.15s;
+      outline: none;
+    }
+
+    .btn:active { transform: scale(0.97); }
+
+    .btn-back {
+      background: transparent;
+      color: var(--muted);
+      border: 1.5px solid var(--border);
+    }
+
+    .btn-back:not(:disabled):hover { border-color: #aaa; color: var(--text); background: white; }
+    .btn-back:disabled { opacity: 0.3; cursor: not-allowed; }
+
+    .btn-next { background: var(--accent); color: #fff; padding: 10px 28px; }
+    .btn-next:hover { background: #1d4ed8; }
+
+    .btn-go { background: var(--green); color: #fff; padding: 10px 26px; }
+    .btn-go:hover { background: #15803d; }
+
+    #confettiCanvas { position: fixed; inset: 0; pointer-events: none; z-index: 60; }
+
+    .footnote { text-align: center; font-size: 11px; color: var(--subtle); margin-top: 16px; letter-spacing: 0.3px; }
+
+    .slide-in { animation: fadeUp 0.3s cubic-bezier(0.4,0,0.2,1) both; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 520px) {
+      .card-top, .card-body { padding-left: 20px; padding-right: 20px; }
+      .card-foot { padding: 16px 20px; flex-wrap: wrap; }
+      .phase-row { grid-template-columns: 1fr; }
+      .stat-row { flex-direction: column; }
+    }
   </style>
 </head>
 <body>
   <div id="root"></div>
-
   <canvas id="confettiCanvas"></canvas>
 
   <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
@@ -25,236 +432,297 @@
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
   <script type="text/babel">
-  const { useState, useEffect, useRef } = React;
+  const { useState, useEffect } = React;
 
-  const slides = [
-    {
-      title: 'Budget & Team Size',
-      icon: '💰',
-      brief: 'Each team gets a ₹45 Crore budget to buy exactly 8 players.',
-      content: `Each team is allocated a fixed budget of<strong> ₹45 Crore</strong>. You must acquire exactly<strong> eight players </strong> for your squad by the end of the auction. Teams with fewer than eight players at the conclusion of the event will be disqualified and will not receive a score.`
-    },
-    {
-      title: 'Player Categories',
-      icon: '🏷️',
-      brief: 'Players are grouped into four tiers: Elite, Premium, Solid, and Budget.',
-      content: `Players are categorized into four tiers based on their scores, which also determines their starting bid price:
-- <strong>Elite:</strong> Score 91–100 => Value ₹4 Cr ≈ 400 Lakh
-- <strong>Premium:</strong> Score 81–90 => Value ₹2 Cr ≈ 200 Lakh
-- <strong>Solid:</strong> Score 66–80 => Value ₹70 Lakh
-- <strong>Budget:</strong> Score 50–65 => Value ₹30 Lakh
-`
-    },
-    {
-      title: 'Bidding Rules & Increments',
-      icon: '📣',
-      brief: 'The auctioneer manages the bidding. Bid increments are fixed.',
-      content: `The auctioneer will announce a player to open the bidding window. The minimum bid increments are determined by the player's current price:
-      <strong>- Under ₹50 Lakh</strong>  → increments of ₹5 Lakh.
-      <strong>- ₹50 Lakh – 1 Cr </strong>→ increments of ₹10 Lakh.
-      <strong>- ₹1 Cr – 2 Cr </strong>→ increments of ₹20 Lakh.
-      <strong>- Above ₹2 Cr </strong>→ increments of ₹50 Lakh.`
-    },
-    {
-      title: 'Auction Flow & Tiebreakers',
-      icon: '🔄',
-      brief: 'The auction has two phases: Main Auction and Re-Auction.',
-      content: `The event proceeds in two phases. The <strong>Main Auction</strong> is where the primary list of players is presented. Any players who remain unsold after this phase will move to the <strong>Re-Auction</strong> phase. In the Re-Auction, teams can bid on these unsold players to complete their squads.`
-    },
-    {
-      title: 'Player Archetypes',
-      icon: '🧩',
-      brief: 'Each player has an archetype that affects team synergy.',
-      content: `Understanding archetypes is key to building a high-synergy team. Here are the archetypes you will encounter in the auction:
-      <br><strong>🏏 Batsman Category:</strong>
-      <ul>
-        <li><strong>BA:</strong> Batting All-Rounder</li>
-        <li><strong>WK:</strong> Wicket-Keeper</li>
-        <li><strong>AO:</strong> Aggressive Opener</li>
-        <li><strong>AN:</strong> Anchor</li>
-        <li><strong>FI:</strong> Finisher</li>
-      </ul>
-      <strong>⚾ Bowler Category:</strong>
-      <ul>
-        <li><strong>PA:</strong> Pace Bowler</li>
-        <li><strong>SP:</strong> Spin Bowler</li>
-        <li><strong>CS:</strong> Containment Specialist</li>
-        <li><strong>BO:</strong> Bowling All-Rounder</li>
-      </ul>`
-    },
-
-    {
-      title: 'Understanding Synergy System',
-      icon: '⚡',
-      brief: 'Smart archetype combinations boost your team score significantly.',
-      content: `Synergy is the secret to building a championship-winning team! When certain player archetypes are paired together, they create powerful bonuses or penalties that can dramatically impact your final score.
-      <br><br><strong>Positive Synergy Examples:</strong>
-      - AO + AN (Aggressive Opener + Anchor): +20 points
-      - BA + FI (Batting All-Rounder + Finisher): +15 points
-      - PA + SP (Pace Bowler + Spin Bowler): +25 points
-      <br><br><strong>Negative Synergy Examples:</strong>
-      - AO + AO (Two Aggressive Openers): -15 points
-      - FI + FI (Two Finishers): -10 points
-      <br><br><strong>📋 Check out the printed synergy combo sheet</strong> provided at your table for the complete list of all positive and negative combinations!`
-    },
-    {
-      title: 'Final Score Calculation',
-      icon: '🏆',
-      brief: 'Your team\'s final score combines base scores with synergy bonuses/penalties.',
-      content: `Your team's final score is calculated using this formula:
-      <br><br><strong>Final Team Score= Sum of 8 Players Base Scores + (Positive Synergy Bonuses -Negative Synergy Penalties)</strong>
-      <br><br><strong>Example:</strong> If your 8 players have base scores totaling 640 points, +35 from positive synergy combinations, and -10 from negative combinations, your final score would be: 640 + 35 -10 = <strong>665 points</strong>
-      <br><br>In case of tied final scores, the team with the <strong>higher remaining budget</strong> will be declared the winner. This rewards both strategic team building and smart budget management!`
-    }
-  ];
-
-  function useWindowSize() {
-    const [size, setSize] = useState({w: window.innerWidth, h: window.innerHeight});
-    useEffect(()=>{
-      const onResize = ()=> setSize({w: window.innerWidth, h: window.innerHeight});
-      window.addEventListener('resize', onResize);
-      return ()=> window.removeEventListener('resize', onResize);
-    },[]);
-    return size;
-  }
-
-  function ConfettiCanvas(){
-    const canvasRef = useRef(null);
-    const particlesRef = useRef([]);
-    const rafRef = useRef(null);
-
-    useEffect(()=>{
+  function ConfettiCanvas() {
+    useEffect(() => {
       const canvas = document.getElementById('confettiCanvas');
       const ctx = canvas.getContext('2d');
-      function resize(){canvas.width = window.innerWidth; canvas.height = window.innerHeight}
-      resize(); window.addEventListener('resize', resize);
-
-      function spawnBurst(x){
-        const count = 90;
-        for(let i=0;i<count;i++){
-          particlesRef.current.push({
-            x: x || Math.random()*canvas.width,
-            y: Math.random()*canvas.height*0.2,
-            vx: (Math.random()-0.5)*8,
-            vy: Math.random()*6+2,
-            size: Math.random()*8+4,
-            angle: Math.random()*360,
+      const particles = [];
+      let raf;
+      function resize() { canvas.width = innerWidth; canvas.height = innerHeight; }
+      resize();
+      window.addEventListener('resize', resize);
+      window.__spawnConfetti = (x) => {
+        for (let i = 0; i < 110; i++) {
+          particles.push({
+            x: x ?? Math.random() * canvas.width,
+            y: Math.random() * canvas.height * 0.15,
+            vx: (Math.random() - 0.5) * 9,
+            vy: Math.random() * 6 + 2,
+            size: Math.random() * 8 + 3,
+            angle: Math.random() * 360,
             color: `hsl(${Math.floor(Math.random()*360)},70%,55%)`,
-            life: 120 + Math.random()*60
+            life: 140 + Math.random() * 60
           });
         }
-      }
-
-      function frame(){
-        ctx.clearRect(0,0,canvas.width,canvas.height);
-        const p = particlesRef.current;
-        for(let i=p.length-1;i>=0;i--){
-          const o = p[i];
-          o.x += o.vx; o.y += o.vy; o.vy += 0.15; o.life--;
+      };
+      function frame() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (let i = particles.length - 1; i >= 0; i--) {
+          const p = particles[i];
+          p.x += p.vx; p.y += p.vy; p.vy += 0.14; p.life--;
           ctx.save();
-          ctx.translate(o.x,o.y);
-          ctx.rotate((o.angle+=0.1));
-          ctx.fillStyle = o.color;
-          ctx.fillRect(-o.size/2, -o.size/2, o.size, o.size*0.6);
+          ctx.translate(p.x, p.y);
+          ctx.rotate((p.angle += 0.09));
+          ctx.globalAlpha = Math.min(1, p.life / 30);
+          ctx.fillStyle = p.color;
+          ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size * 0.55);
           ctx.restore();
-          if(o.life<=0 || o.y>canvas.height+50) p.splice(i,1);
+          if (p.life <= 0 || p.y > canvas.height + 40) particles.splice(i, 1);
         }
-        rafRef.current = requestAnimationFrame(frame);
+        raf = requestAnimationFrame(frame);
       }
-
-      rafRef.current = requestAnimationFrame(frame);
-      window.__spawnConfetti = spawnBurst;
-
-      return ()=>{
-        cancelAnimationFrame(rafRef.current);
-        window.removeEventListener('resize', resize);
-        particlesRef.current = [];
-        window.__spawnConfetti = null;
-      }
-    },[]);
-
+      raf = requestAnimationFrame(frame);
+      return () => { cancelAnimationFrame(raf); window.removeEventListener('resize', resize); };
+    }, []);
     return null;
   }
 
-  function Carousel(){
-    const [index, setIndex] = useState(0);
-    const size = useWindowSize();
-
-    useEffect(()=>{
-      const c = document.getElementById('confettiCanvas');
-      if(c){c.width = window.innerWidth; c.height = window.innerHeight}
-    },[size]);
-
-    function goNext(){
-      if(index < slides.length-1) setIndex(i=>i+1);
-      else {
-        if(window.__spawnConfetti) window.__spawnConfetti(window.innerWidth*0.5);
-        const btn = document.getElementById('readyBtn');
-        if(btn){btn.classList.add('transform','scale-105'); setTimeout(()=>btn.classList.remove('transform','scale-105'),600)}
-      }
-    }
-    function goPrev(){ if(index>0) setIndex(i=>i-1) }
-
-    const pct = Math.round(((index+1)/slides.length)*100);
-    const currentSlide = slides[index];
-
+  function Slide0() {
     return (
-      <div className="min-h-screen flex items-center justify-center p-6">
-        <div className="w-full max-w-4xl">
-
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <div className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-orange-400">CPL Auction – Official Rules</div>
-              <div className="text-sm text-gray-600 mt-1">A simple walkthrough of the auction rules.</div>
-            </div>
-            <div className="text-sm text-gray-700">Step <strong>{index+1}</strong> of {slides.length}</div>
+      <div className="content">
+        <p>Each team is allocated a fixed budget of <strong>₹45 Crore</strong>. You must acquire exactly <strong>eight players</strong> for your squad by the end of the auction.</p>
+        <p>Teams with fewer than eight players at conclusion will be <strong>disqualified</strong> and will not receive a score.</p>
+        <div className="stat-row">
+          <div className="stat-box">
+            <div className="stat-icon">💸</div>
+            <div className="stat-val">₹45 Cr</div>
+            <div className="stat-label">Total Budget Per Team</div>
           </div>
-
-          <div className="card bg-white p-6 relative overflow-hidden">
-            <div className="flex items-center gap-4 mb-4">
-              <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-pink-300 to-orange-300 flex items-center justify-center text-3xl">{currentSlide.icon}</div>
-              <div>
-                <div className="text-xl font-bold">{currentSlide.title}</div>
-                <div className="text-sm text-gray-600 mt-1">{currentSlide.brief}</div>
-              </div>
-            </div>
-
-            <div className="prose max-w-none text-gray-700 mb-6" style={{lineHeight:1.6}}>
-              <div key={index} dangerouslySetInnerHTML={{ __html: currentSlide.content.replace(/- /g, '<br/>- ') }} />
-            </div>
-
-            <div className="w-full bg-gray-100 rounded-full h-3 overflow-hidden mt-4">
-              <div className="h-3 bg-gradient-to-r from-pink-500 to-orange-400" style={{width:`${pct}%`}}></div>
-            </div>
-
-            <div className="flex items-center justify-between mt-6">
-              <div className="text-sm text-gray-600">Progress: <strong>{pct}%</strong></div>
-              <div className="flex gap-2">
-                <button onClick={goPrev} disabled={index===0} className={`px-4 py-2 rounded-full font-semibold ${index===0? 'bg-gray-200 text-gray-500' : 'bg-white text-gray-800 shadow'}`}>Back</button>
-                {index<slides.length-1 ? (
-                  <button onClick={goNext} className="px-5 py-2 rounded-full font-bold bg-gradient-to-r from-pink-500 to-orange-400 text-white shadow">Next →</button>
-                ) : (
-                  <button id="readyBtn" onClick={()=>{ if(window.__spawnConfetti) window.__spawnConfetti(window.innerWidth*0.5); setTimeout(()=> window.location.href='https://storm-cpl.netlify.app/', 1200)}} className="px-5 py-2 rounded-full font-bold bg-gradient-to-r from-green-500 to-lime-500 text-white shadow">I Understand – Let's Go!</button>
-                )}
-              </div>
-            </div>
-
+          <div className="stat-box">
+            <div className="stat-icon">🏏</div>
+            <div className="stat-val">8</div>
+            <div className="stat-label">Players Required</div>
           </div>
-
-          <div className="text-center text-xs text-gray-500 mt-4">This is a standalone instructions page for auction participants.</div>
         </div>
       </div>
     );
   }
 
-  function App(){
+  function Slide1() {
+    const tiers = [
+      { cls:'t-elite',   name:'Elite',   range:'Score 91–100', price:'₹4 Cr (≈ 400 Lakh)' },
+      { cls:'t-premium', name:'Premium', range:'Score 81–90',  price:'₹2 Cr (≈ 200 Lakh)' },
+      { cls:'t-solid',   name:'Solid',   range:'Score 66–80',  price:'₹70 Lakh' },
+      { cls:'t-budget',  name:'Budget',  range:'Score 50–65',  price:'₹30 Lakh' },
+    ];
     return (
-      <>
-        <Carousel />
-        <ConfettiCanvas />
-      </>
+      <div className="content">
+        <p>Players are sorted into four tiers based on their scores. Each tier has a fixed starting bid price.</p>
+        <div className="tier-grid">
+          {tiers.map(t => (
+            <div key={t.name} className={`tier-chip ${t.cls}`}>
+              <div className="t-name">{t.name}</div>
+              <div className="t-range">{t.range}</div>
+              <div className="t-price">{t.price}</div>
+            </div>
+          ))}
+        </div>
+      </div>
     );
   }
+
+  function Slide2() {
+    const rows = [
+      { range: 'Under ₹50 Lakh',    inc: '₹5 Lakh'  },
+      { range: '₹50 Lakh – ₹1 Cr',  inc: '₹10 Lakh' },
+      { range: '₹1 Cr – ₹2 Cr',     inc: '₹20 Lakh' },
+      { range: 'Above ₹2 Cr',        inc: '₹50 Lakh' },
+    ];
+    return (
+      <div className="content">
+        <p>The auctioneer announces each player to open bidding. Minimum increments scale with the current price:</p>
+        <table className="inc-table">
+          <thead><tr><th>Current Price</th><th>Min. Increment</th></tr></thead>
+          <tbody>
+            {rows.map(r => (
+              <tr key={r.range}><td>{r.range}</td><td className="inc-val">{r.inc}</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+
+  function Slide3() {
+    return (
+      <div className="content">
+        <p>The auction runs in two sequential phases:</p>
+        <div className="phase-row">
+          <div className="phase-card phase-main">
+            <div className="phase-num">Phase 1</div>
+            <div className="phase-name">Main Auction</div>
+            <div className="phase-desc">The full player list is presented. Bid hard to secure your top targets.</div>
+          </div>
+          <div className="phase-card phase-re">
+            <div className="phase-num">Phase 2</div>
+            <div className="phase-name">Re-Auction</div>
+            <div className="phase-desc">Unsold players from Phase 1 return. Fill remaining squad gaps here.</div>
+          </div>
+        </div>
+        <p style={{marginTop:14,fontSize:13,color:'#777'}}>Tiebreaker: the team with the <strong>higher remaining budget</strong> wins.</p>
+      </div>
+    );
+  }
+
+  function Slide4() {
+    const bat  = [{code:'BA',name:'Batting All-Rounder'},{code:'WK',name:'Wicket-Keeper'},{code:'AO',name:'Aggressive Opener'},{code:'AN',name:'Anchor'},{code:'FI',name:'Finisher'}];
+    const bowl = [{code:'PA',name:'Pace Bowler'},{code:'SP',name:'Spin Bowler'},{code:'CS',name:'Containment Specialist'},{code:'BO',name:'Bowling All-Rounder'}];
+    return (
+      <div className="content">
+        <p>Each player carries an archetype. Knowing them is essential for building high-synergy teams.</p>
+        <div className="arch-section">
+          <div className="arch-label">🏏 Batsman Category</div>
+          <div className="arch-chips">
+            {bat.map(a => <div key={a.code} className="arch-chip"><span className="code">{a.code}</span><span className="aname">{a.name}</span></div>)}
+          </div>
+        </div>
+        <div className="arch-section" style={{marginTop:14}}>
+          <div className="arch-label">⚾ Bowler Category</div>
+          <div className="arch-chips">
+            {bowl.map(a => <div key={a.code} className="arch-chip"><span className="code">{a.code}</span><span className="aname">{a.name}</span></div>)}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  function Slide5() {
+    const pos = [{combo:'AO + AN',desc:'Aggressive Opener + Anchor',bonus:'+20 pts'},{combo:'BA + FI',desc:'Batting All-Rounder + Finisher',bonus:'+15 pts'},{combo:'PA + SP',desc:'Pace + Spin Bowler',bonus:'+25 pts'}];
+    const neg = [{combo:'AO + AO',desc:'Two Aggressive Openers',bonus:'−15 pts'},{combo:'FI + FI',desc:'Two Finishers',bonus:'−10 pts'}];
+    return (
+      <div className="content">
+        <p>Pairing certain archetypes triggers bonuses — or penalties. This can swing the final leaderboard significantly.</p>
+        <div className="syn-section">
+          <div className="syn-label syn-pos-label">✅ Positive Synergies Examples</div>
+          <div className="syn-list">
+            {pos.map(s => (
+              <div key={s.combo} className="syn-row syn-pos">
+                <div><span className="syn-combo">{s.combo}</span><span className="syn-desc">{s.desc}</span></div>
+                <span className="syn-bonus bon-pos">{s.bonus}</span>
+              </div>
+            ))}
+          </div>
+          <div className="syn-label syn-neg-label">❌ Negative Synergies Examples</div>
+          <div className="syn-list">
+            {neg.map(s => (
+              <div key={s.combo} className="syn-row syn-neg">
+                <div><span className="syn-combo">{s.combo}</span><span className="syn-desc">{s.desc}</span></div>
+                <span className="syn-bonus bon-neg">{s.bonus}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+        <p style={{fontSize:13,color:'var(--muted)'}}>📋 Check the printed synergy sheet at your table for the full combo list.</p>
+      </div>
+    );
+  }
+
+  function Slide6() {
+    return (
+      <div className="content">
+        <p>Your final team score combines base player scores with synergy adjustments:</p>
+        <div className="formula-box">
+          <div className="formula-text">
+            Final Score = <br></br> Sum of 8 Players Base Scores + Positive Synergy Bonuses − Negative Synergy Penalties
+          </div>
+          <div className="formula-eg">
+            <strong>Example:</strong> 640 base &nbsp;+&nbsp; 35 positive &nbsp;−&nbsp; 10 negative &nbsp;=&nbsp;
+            <span className="formula-result"> 665 pts</span>
+          </div>
+        </div>
+        <p style={{fontSize:13,color:'var(--muted)'}}>On a tied score, the team with the <strong>higher remaining budget</strong> is declared the winner — smart spending counts.</p>
+      </div>
+    );
+  }
+
+  const slideComponents = [Slide0, Slide1, Slide2, Slide3, Slide4, Slide5, Slide6];
+  const slideMeta = [
+    {title:'Budget & Team Size',  icon:'💰', brief:'₹45 Cr budget · exactly 8 players required.'},
+    {title:'Player Categories',   icon:'🏷️', brief:'Four tiers determine starting bid prices.'},
+    {title:'Bidding Increments',  icon:'📣', brief:'Increments scale with the current price.'},
+    {title:'Auction Flow',        icon:'🔄', brief:'Main Auction followed by Re-Auction.'},
+    {title:'Player Archetypes',   icon:'🧩', brief:'Archetypes determine synergy outcomes.'},
+    {title:'Synergy System',      icon:'⚡', brief:'Right combos boost your score — wrong ones hurt.'},
+    {title:'Final Score Formula', icon:'🏆', brief:'Base + synergy bonuses − penalties = final rank.'},
+  ];
+
+  function Carousel() {
+    const [index, setIndex] = useState(0);
+    const [animKey, setAnimKey] = useState(0);
+    const isLast = index === slideMeta.length - 1;
+    const pct = Math.round(((index + 1) / slideMeta.length) * 100);
+    const meta = slideMeta[index];
+    const SlideBody = slideComponents[index];
+
+    function go(dir) { setIndex(i => i + dir); setAnimKey(k => k + 1); }
+
+    return (
+      <div className="shell">
+        <div className="wrap">
+
+          <div className="header">
+            <div className="brand">
+              <div className="brand-badge">🏏</div>
+              <div>
+                <div className="brand-name">ITEC IPL Auction</div>
+                <div className="brand-sub">Official Rules Walkthrough</div>
+              </div>
+            </div>
+            <div className="step-pill">Step <strong>{index + 1}</strong> / {slideMeta.length}</div>
+          </div>
+
+          <div className="card">
+            <div className="card-top">
+              <div className="slide-head">
+                <div className="icon-tag">{meta.icon}</div>
+                <div>
+                  <div className="slide-title">{meta.title}</div>
+                  <div className="slide-brief">{meta.brief}</div>
+                </div>
+              </div>
+            </div>
+
+            <div className="card-body">
+              <div key={animKey} className="slide-in">
+                <SlideBody />
+              </div>
+            </div>
+
+            <div className="card-foot">
+              <div className="progress-wrap">
+                <div className="progress-bg">
+                  <div className="progress-fill" style={{width:`${pct}%`}} />
+                </div>
+                <div className="dots">
+                  {slideMeta.map((_, i) => (
+                    <div key={i} className={`dot ${i < index ? 'done' : i === index ? 'active' : ''}`} />
+                  ))}
+                </div>
+                <div className="pct-label">{pct}% complete</div>
+              </div>
+
+              <div className="btn-row">
+                <button className="btn btn-back" onClick={() => go(-1)} disabled={index === 0}>← Back</button>
+                {!isLast
+                  ? <button className="btn btn-next" onClick={() => go(1)}>Next →</button>
+                  : <button className="btn btn-go" onClick={() => {
+                      window.__spawnConfetti?.(innerWidth * 0.5);
+                      setTimeout(() => window.location.href = 'https://itec-ipl.netlify.app/', 1300);
+                    }}>Let's Go 🚀</button>
+                }
+              </div>
+            </div>
+          </div>
+
+          <div className="footnote">Standalone instructions page for auction participants · ITEC IPL {new Date().getFullYear()}</div>
+        </div>
+      </div>
+    );
+  }
+
+  function App() { return (<><Carousel /><ConfettiCanvas /></>); }
 
   ReactDOM.createRoot(document.getElementById('root')).render(<App />);
   </script>
